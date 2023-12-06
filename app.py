@@ -18,14 +18,18 @@ mycol = db['docs']
 @app.route('/documents', methods=['GET'])
 def get():
     data = mycol.find({})
-    a = []
+    result = []
+
     for d in data:
-        b = {
+        link_value = str(d.get("link", None))
+
+        document_info = {
             "id": str(d["_id"]),
-            "link": str(d["link"]),
+            "link": link_value,
         }
-        a.append(b)
-    return {'message': a}
+        result.append(document_info)
+
+    return jsonify({'message': result})
 
 
 @app.route('/Postdocuments', methods=['POST'])
